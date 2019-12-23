@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,10 +20,6 @@ import android.widget.Toast;
 import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
-
-    Button submitButton;
-    TextView input;
-    int time = 0;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
@@ -34,11 +34,26 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
 
+
+        WebView mywebview = (WebView) findViewById(R.id.webView);
+        mywebview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(request.getUrl().toString());
+                return false;
+            }
+        });
+        mywebview.loadUrl("https://www.google.com");
+        /*
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         submitButton = findViewById(R.id.setButton);
         input = findViewById(R.id.timeInput);
 
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
                 try {
                     time = Integer.parseInt(input.getText().toString());
@@ -48,13 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("CameraFun","OnPause()");
-        new CountDownTimer(time * 1000, 1000) {
+         */
+
+        Log.d("CameraFun","Start Timer");
+        new CountDownTimer(6 * 1000, 1000) {
             public void onFinish() {
                 openFrontFacingCamera();
             }
@@ -63,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 // millisUntilFinished    The amount of time until finished.
             }
         }.start();
-
     }
 
     private Camera openFrontFacingCamera()
