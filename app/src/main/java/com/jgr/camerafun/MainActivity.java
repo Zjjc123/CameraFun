@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button submitButton;
     TextView input;
+    int time = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,14 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), input.getText(), Toast.LENGTH_LONG).show();
+                try {
+                    time = Integer.parseInt(input.getText().toString());
+                    Toast.makeText(getApplicationContext(), "Timer: " + time, Toast.LENGTH_LONG).show();
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(getApplicationContext(), "Error! " + input.getText().toString(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
